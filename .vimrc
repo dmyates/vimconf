@@ -29,24 +29,38 @@ Plugin 'gmarik/Vundle.vim'
 " Plugin 'rstacruz/sparkup', {'rtp': 'vim/'}
 " Avoid a name conflict with L9
 " Plugin 'user/L9', {'name': 'newL9'}
+
+" Autocompletion
 Plugin 'Valloric/YouCompleteMe'
+
+" Niceties
 Plugin 'tpope/vim-repeat'
 Plugin 'terryma/vim-smooth-scroll'
 Plugin 'tpope/vim-surround'
 Plugin 'tpope/vim-unimpaired'
 Plugin 'bling/vim-airline'
-Plugin 'vim-ruby/vim-ruby'
 Plugin 'tpope/vim-sensible'
-Plugin 'plasticboy/vim-markdown'
-Plugin 'ryanss/vim-hackernews'
 Plugin 'osyo-manga/vim-over'
-Plugin 'suan/vim-instant-markdown'
-Plugin 'Shougo/vimproc.vim'
-Plugin 'Shougo/vimshell.vim'
+Plugin 'junegunn/goyo.vim'
+
+" Languages
+Plugin 'plasticboy/vim-markdown'
+Plugin 'vim-ruby/vim-ruby'
+Plugin 'tpope/vim-rails'
+Plugin 'groenewege/vim-less'
+Plugin 'fatih/vim-go'
+Plugin 'kchmck/vim-coffee-script'
+Plugin 'wlangstroth/vim-racket'
+Plugin 'chaimleib/vim-renpy'
+
+" Utilities
 Plugin 'vimwiki/vimwiki'
 Plugin 'jamessan/vim-gnupg'
-Plugin 'junegunn/goyo.vim'
-Plugin 'fatih/vim-go'
+Plugin 'scrooloose/nerdtree'
+
+" Vimshell
+Plugin 'Shougo/vimproc.vim'
+Plugin 'Shougo/vimshell.vim'
 
 " All of your Plugins must be added before the following line
 call vundle#end()            " required
@@ -139,7 +153,9 @@ if has("autocmd")
 		autocmd FileType treetop setlocal shiftwidth=2 tabstop=2
 		autocmd FileType jade setlocal shiftwidth=2 tabstop=2
 		autocmd FileType scss setlocal shiftwidth=2 tabstop=2
+		autocmd FileType coffee setlocal shiftwidth=2 tabstop=2
 		autocmd FileType python setlocal tabstop=4 shiftwidth=4 expandtab
+		autocmd FileType javascript setlocal tabstop=4 shiftwidth=4
 		"Spellcheck for various writing formats
 		autocmd FileType tex setlocal spell spelllang=en_gb
 		autocmd FileType wiki setlocal spell spelllang=en_gb
@@ -354,13 +370,28 @@ set wrap
 set linebreak
 set nolist
 
-" YouComplete me file whitelist
-
-let g:ycm_filetype_whitelist = { 'cpp': 1, 'c': 1, 'python': 1 }
+" YouComplete me file blacklist
+let g:ycm_filetype_blacklist = {
+      \ 'tagbar' : 1,
+      \ 'qf' : 1,
+      \ 'notes' : 1,
+      \ 'markdown' : 1,
+      \ 'unite' : 1,
+      \ 'text' : 1,
+      \ 'vimwiki' : 1,
+      \ 'pandoc' : 1,
+      \ 'infolog' : 1,
+      \ 'mail' : 1
+      \}
 
 " Vimwiki embedded syntax highlight
-
 let wiki = {}
 let wiki.path = '~/vimwiki/'
 let wiki.nested_syntaxes = {'python': 'python', 'c++': 'cpp', 'sh': 'sh'}
 let g:vimwiki_list = [wiki]
+
+" NERDTree
+map <C-n> :NERDTreeToggle<CR>
+
+" Pollen
+inoremap <C-L> ◊
