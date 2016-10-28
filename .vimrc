@@ -35,28 +35,22 @@ Plugin 'Valloric/YouCompleteMe'
 
 " Niceties
 Plugin 'tpope/vim-repeat'
-Plugin 'terryma/vim-smooth-scroll'
 Plugin 'tpope/vim-surround'
 Plugin 'tpope/vim-unimpaired'
 Plugin 'bling/vim-airline'
 Plugin 'tpope/vim-sensible'
-Plugin 'osyo-manga/vim-over'
 Plugin 'junegunn/goyo.vim'
 
 " Languages
-Plugin 'plasticboy/vim-markdown'
-Plugin 'vim-ruby/vim-ruby'
+Plugin 'sheerun/vim-polyglot'
 Plugin 'tpope/vim-rails'
-Plugin 'groenewege/vim-less'
-Plugin 'fatih/vim-go'
-Plugin 'kchmck/vim-coffee-script'
 Plugin 'wlangstroth/vim-racket'
 Plugin 'chaimleib/vim-renpy'
+Plugin 'nessss/vim-gml'
 
 " Utilities
 Plugin 'vimwiki/vimwiki'
 Plugin 'jamessan/vim-gnupg'
-Plugin 'scrooloose/nerdtree'
 
 " Vimshell
 Plugin 'Shougo/vimproc.vim'
@@ -155,6 +149,7 @@ if has("autocmd")
 		autocmd FileType scss setlocal shiftwidth=2 tabstop=2
 		autocmd FileType coffee setlocal shiftwidth=2 tabstop=2
 		autocmd FileType python setlocal tabstop=4 shiftwidth=4 expandtab
+		autocmd FileType haskell setlocal tabstop=4 shiftwidth=4 expandtab
 		autocmd FileType javascript setlocal tabstop=4 shiftwidth=4
 		"Spellcheck for various writing formats
 		autocmd FileType tex setlocal spell spelllang=en_gb
@@ -387,11 +382,17 @@ let g:ycm_filetype_blacklist = {
 " Vimwiki embedded syntax highlight
 let wiki = {}
 let wiki.path = '~/vimwiki/'
-let wiki.nested_syntaxes = {'python': 'python', 'c++': 'cpp', 'sh': 'sh'}
+let wiki.nested_syntaxes = {'python': 'python', 'c++': 'cpp', 'sh': 'sh', 'racket': 'racket'}
 let g:vimwiki_list = [wiki]
-
-" NERDTree
-map <C-n> :NERDTreeToggle<CR>
 
 " Pollen
 inoremap <C-L> ◊
+
+" Visual @
+" Select a line and then press @ to run macro on all matching lines
+xnoremap @ :<C-u>call ExecuteMacroOverVisualRange()<CR>
+
+function! ExecuteMacroOverVisualRange()
+  echo "@".getcmdline()
+  execute ":'<,'>normal @".nr2char(getchar())
+endfunction
