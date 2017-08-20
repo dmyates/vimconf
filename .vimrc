@@ -31,7 +31,7 @@ Plugin 'gmarik/Vundle.vim'
 " Plugin 'user/L9', {'name': 'newL9'}
 
 " Autocompletion
-Plugin 'Valloric/YouCompleteMe'
+" Plugin 'Valloric/YouCompleteMe'
 
 " Niceties
 Plugin 'tpope/vim-repeat'
@@ -260,14 +260,7 @@ vnoremap > >gv
 " Easy vimrc editing and reloading
 nnoremap <leader>ev <C-w><C-v><C-l>:e $MYVIMRC<cr>
 nnoremap <leader>sv :source $MYVIMRC<cr>
-
-
-" Smooth scroll
-noremap <silent> <c-u> :call smooth_scroll#up(&scroll, 0, 2)<CR>
-noremap <silent> <c-d> :call smooth_scroll#down(&scroll, 0, 2)<CR>
-noremap <silent> <c-b> :call smooth_scroll#up(&scroll*2, 0, 4)<CR>
-noremap <silent> <c-f> :call smooth_scroll#down(&scroll*2, 0, 4)<CR>
-
+"
 " Automatically change working directory to current file place
 set autochdir
 
@@ -371,6 +364,7 @@ let g:ycm_filetype_blacklist = {
       \ 'qf' : 1,
       \ 'notes' : 1,
       \ 'markdown' : 1,
+      \ 'renpy' : 1,
       \ 'unite' : 1,
       \ 'text' : 1,
       \ 'vimwiki' : 1,
@@ -383,7 +377,9 @@ let g:ycm_filetype_blacklist = {
 let wiki = {}
 let wiki.path = '~/vimwiki/'
 let wiki.nested_syntaxes = {'python': 'python', 'c++': 'cpp', 'sh': 'sh', 'racket': 'racket'}
-let g:vimwiki_list = [wiki]
+let g:vimwiki_list = [{'path': '~/vimwiki/', 'syntax': 'markdown', 'ext': '.md'}]
+let g:vimwiki_hl_headers = 1
+let g:vimwiki_hl_cb_checked = 1
 
 " Pollen
 inoremap <C-L> ◊
