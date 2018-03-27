@@ -377,7 +377,7 @@ let g:ycm_filetype_blacklist = {
 let wiki = {}
 let wiki.path = '~/vimwiki/'
 let wiki.nested_syntaxes = {'python': 'python', 'c++': 'cpp', 'sh': 'sh', 'racket': 'racket'}
-let g:vimwiki_list = [{'path': '~/vimwiki/', 'syntax': 'markdown', 'ext': '.md'}]
+let g:vimwiki_list = [{'path': '~/vimwiki/', 'syntax': 'markdown', 'ext': '.wiki'}]
 let g:vimwiki_hl_headers = 1
 let g:vimwiki_hl_cb_checked = 1
 
