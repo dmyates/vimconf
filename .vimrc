@@ -35,9 +35,7 @@ Plugin 'gmarik/Vundle.vim'
 " Niceties
 Plugin 'tpope/vim-repeat'
 Plugin 'tpope/vim-surround'
-Plugin 'tpope/vim-unimpaired'
 Plugin 'bling/vim-airline'
-Plugin 'tpope/vim-sensible'
 Plugin 'junegunn/goyo.vim'
 
 " Languages
@@ -87,7 +85,7 @@ if has("vms")
 else
   set backup		" keep a backup file
 endif
-set history=50		" keep 50 lines of command line history
+set history=1000	" keep 1000 lines of command line history
 set ruler		" show the cursor position all the time
 set showcmd		" display incomplete commands
 
@@ -161,12 +159,6 @@ if has("autocmd")
 		autocmd FocusLost * :wa
 	augroup END
 
-	" Absolute numbers in insert mode
-	augroup InsertNumbers
-		:autocmd InsertEnter * :setlocal number
-		:autocmd InsertLeave * :setlocal relativenumber
-	augroup END
-
 else
 
   set autoindent		" always set autoindenting on
@@ -188,9 +180,10 @@ set numberwidth=3
 " Allow clipboard in register +
 set clipboard+=unnamed
 
-"Misc
+" Misc
 set encoding=utf-8
 set scrolloff=3
+set sidescrolloff=5
 set showmode
 set hidden
 set wildmenu
@@ -199,6 +192,42 @@ set visualbell
 set ttyfast
 set laststatus=2
 set undofile
+set complete-=i
+set smarttab
+set display+=lastline
+set autoread
+set tabpagemax=50
+set sessionoptions-=options
+
+" Remove octal from C-a and C-x
+set nrformats-=octal
+
+" sensible.vim
+if &listchars ==# 'eol:$'
+  set listchars=tab:>\ ,trail:-,extends:>,precedes:<,nbsp:+
+endif
+
+if v:version > 703 || v:version == 703 && has("patch541")
+  set formatoptions+=j " Delete comment character when joining commented lines
+endif
+
+if has('path_extra')
+  setglobal tags-=./tags tags-=./tags; tags^=./tags;
+endif
+
+if !empty(&viminfo)
+  set viminfo^=!
+endif
+
+" Allow color schemes to do bright colors without forcing bold.
+if &t_Co == 8 && $TERM !~# '^linux\|^Eterm'
+  set t_Co=16
+endif
+
+" Load matchit.vim, but only if the user hasn't installed a newer version.
+if !exists('g:loaded_matchit') && findfile('plugin/matchit.vim', &rtp) ==# ''
+  runtime! macros/matchit.vim
+endif
 
 " Remap Escape to jk in insert mode
 inoremap jk <ESC>
