@@ -31,7 +31,6 @@ Plugin 'gmarik/Vundle.vim'
 " Plugin 'user/L9', {'name': 'newL9'}
 
 " Autocompletion
-" Plugin 'Valloric/YouCompleteMe'
 
 " Niceties
 Plugin 'tpope/vim-repeat'
@@ -91,7 +90,6 @@ endif
 set history=50		" keep 50 lines of command line history
 set ruler		" show the cursor position all the time
 set showcmd		" display incomplete commands
-set incsearch		" do incremental searching
 
 " For Win32 GUI: remove 't' flag from 'guioptions': no tearoff menu entries
 " let &guioptions = substitute(&guioptions, "t", "", "g")
@@ -143,7 +141,7 @@ if has("autocmd")
 	augroup filetypes
 		"Indentation for various languages
 		autocmd FileType html setlocal shiftwidth=2 tabstop=2
-		autocmd FileType ruby setlocal shiftwidth=2 tabstop=2
+		autocmd FileType ruby setlocal shiftwidth=2 tabstop=2 expandtab
 		autocmd FileType treetop setlocal shiftwidth=2 tabstop=2
 		autocmd FileType jade setlocal shiftwidth=2 tabstop=2
 		autocmd FileType scss setlocal shiftwidth=2 tabstop=2
@@ -186,7 +184,6 @@ endif
 " Show relative line numbers
 set number
 set numberwidth=3
-set relativenumber
 
 " Allow clipboard in register +
 set clipboard+=unnamed
@@ -210,9 +207,8 @@ inoremap kj <ESC>
 " Leader
 let mapleader = ","
 noremap \ ,
-" nnoremap <leader>v V`] "select all with leader v
-nnoremap <leader>m :NERDTree<cr>
-nnoremap <leader>r :VimroomToggle<cr>
+" Select all
+nnoremap <leader>v V`]
 " Duplicate line
 nnoremap <leader>d yypjk
 " Duplicate character
@@ -221,10 +217,10 @@ nnoremap <leader>c x2P
 " Searching
 nnoremap / /\v
 vnoremap / /\v
+set incsearch
 set ignorecase
 set smartcase
 set gdefault
-set incsearch
 set showmatch
 set hlsearch
 nnoremap <leader><space> :noh<cr>
@@ -258,9 +254,9 @@ vnoremap < <gv
 vnoremap > >gv
 
 " Easy vimrc editing and reloading
-nnoremap <leader>ev <C-w><C-v><C-l>:e $MYVIMRC<cr>
+nnoremap <leader>ev :e $MYVIMRC<cr>
 nnoremap <leader>sv :source $MYVIMRC<cr>
-"
+
 " Automatically change working directory to current file place
 set autochdir
 
@@ -282,26 +278,12 @@ set foldlevelstart=20
 nnoremap <S-up> :m .-2<CR>==
 nnoremap <S-down> :m .+1<CR>==
 
-"Split line here
+" Split line here
 nnoremap K i<CR><Esc>
 
 " Autocorrect
 iabbrev adn and
 iabbrev seperate separate
-
-"Programming helpers
-augroup ProgAbbrevs
-	autocmd FileType javascript :iabbrev <buffer> << &lt;
-	autocmd FileType javascript :iabbrev <buffer> >> &gt;
-	autocmd FileType javascript :iabbrev <buffer> iff if ()<left>
-	autocmd FileType javascript :iabbrev <buffer> func function )<left>
-augroup END
-
-" Ruby autocomplete
-autocmd FileType ruby,eruby set omnifunc=rubycomplete#Complete
-autocmd FileType ruby,eruby let g:rubycomplete_buffer_loading = 1 
-autocmd FileType ruby,eruby let g:rubycomplete_classes_in_global = 1
-autocmd FileType ruby,eruby let g:rubycomplete_rails = 1
 
 " Airline tabs
 let g:airline#extensions#tabline#enabled = 1
@@ -309,14 +291,11 @@ let g:airline#extensions#tabline#enabled = 1
 " F8 disables autoindent
 nnoremap <F8> :setl noai nocin nosi inde=<CR>
 
-" Insert mode editing
-inoremap <C-v> <Esc>"+pi
-inoremap <C-z> <Esc>ui
-
 " Select last pasted text
 nnoremap gp `[v`]
 
 " Open VimShell
+set noautochdir
 nnoremap <leader>vs :set noautochdir<CR>:VimShellPop<CR>
 
 " VimShell keymappings
@@ -350,28 +329,13 @@ endfunction
 autocmd User GoyoEnter nested call <SID>goyo_enter()
 autocmd User GoyoLeave nested call <SID>goyo_leave()
 
-" Fix Travis
+" Fix comma splices
 nnoremap <leader>tr f,r.wvU
 
 " Linewrapping
 set wrap
 set linebreak
 set nolist
-
-" YouComplete me file blacklist
-let g:ycm_filetype_blacklist = {
-      \ 'tagbar' : 1,
-      \ 'qf' : 1,
-      \ 'notes' : 1,
-      \ 'markdown' : 1,
-      \ 'renpy' : 1,
-      \ 'unite' : 1,
-      \ 'text' : 1,
-      \ 'vimwiki' : 1,
-      \ 'pandoc' : 1,
-      \ 'infolog' : 1,
-      \ 'mail' : 1
-      \}
 
 " Vimwiki embedded syntax highlight
 let wiki = {}
