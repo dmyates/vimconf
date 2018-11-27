@@ -49,10 +49,6 @@ Plugin 'nessss/vim-gml'
 Plugin 'vimwiki/vimwiki'
 Plugin 'jamessan/vim-gnupg'
 
-" Vimshell
-Plugin 'Shougo/vimproc.vim'
-Plugin 'Shougo/vimshell.vim'
-
 " All of your Plugins must be added before the following line
 call vundle#end()            " required
 filetype plugin indent on    " required
@@ -138,12 +134,12 @@ if has("autocmd")
 	" Set filetype local settings
 	augroup filetypes
 		"Indentation for various languages
-		autocmd FileType html setlocal shiftwidth=2 tabstop=2
+		autocmd FileType html setlocal shiftwidth=2 tabstop=2 expandtab
 		autocmd FileType ruby setlocal shiftwidth=2 tabstop=2 expandtab
-		autocmd FileType treetop setlocal shiftwidth=2 tabstop=2
-		autocmd FileType jade setlocal shiftwidth=2 tabstop=2
-		autocmd FileType scss setlocal shiftwidth=2 tabstop=2
-		autocmd FileType coffee setlocal shiftwidth=2 tabstop=2
+		autocmd FileType treetop setlocal shiftwidth=2 tabstop=2 expandtab
+		autocmd FileType jade setlocal shiftwidth=2 tabstop=2 expandtab
+		autocmd FileType scss setlocal shiftwidth=2 tabstop=2 expandtab
+		autocmd FileType coffee setlocal shiftwidth=2 tabstop=2 expandtab
 		autocmd FileType python setlocal tabstop=4 shiftwidth=4 expandtab
 		autocmd FileType haskell setlocal tabstop=4 shiftwidth=4 expandtab
 		autocmd FileType javascript setlocal tabstop=4 shiftwidth=4
@@ -297,7 +293,7 @@ color slate
 :set guioptions-=L  "remove left-hand scroll bar
 
 " Latex wordcount
-:map <F3> :w !detex \| wc -w<CR>
+:map <F3> :w !wc -w<CR>
 
 " Indentation defines folds, also default to open folds
 set foldmethod=indent
@@ -322,16 +318,6 @@ nnoremap <F8> :setl noai nocin nosi inde=<CR>
 
 " Select last pasted text
 nnoremap gp `[v`]
-
-" Open VimShell
-set noautochdir
-nnoremap <leader>vs :set noautochdir<CR>:VimShellPop<CR>
-
-" VimShell keymappings
-let g:vimshell_no_default_keymappings=1
-autocmd FileType vimshell imap <buffer> <cr> <Plug>(vimshell_enter)
-vnoremap <leader>x :VimShellSendString<cr>
-nnoremap <leader>x V:VimShellSendString<cr>
 
 " GnuPG settings
 let g:GPGPreferArmor=1
