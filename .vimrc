@@ -102,9 +102,12 @@ if has('mouse')
 endif
 
 " Syntax colours and search highlighting
-if &t_Co > 2 || has("gui_running")
-  syntax on
-  set hlsearch
+syntax on
+set hlsearch
+
+" Colors
+if (has("termguicolors"))
+   set termguicolors
 endif
 
 " Autocommands
@@ -217,11 +220,6 @@ endif
 
 if !empty(&viminfo)
   set viminfo^=!
-endif
-
-" Allow color schemes to do bright colors without forcing bold.
-if &t_Co == 8 && $TERM !~# '^linux\|^Eterm'
-  set t_Co=16
 endif
 
 " Load matchit.vim, but only if the user hasn't installed a newer version.
