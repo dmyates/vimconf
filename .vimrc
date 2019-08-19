@@ -35,8 +35,9 @@ Plugin 'gmarik/Vundle.vim'
 " Niceties
 Plugin 'tpope/vim-repeat'
 Plugin 'tpope/vim-surround'
-Plugin 'bling/vim-airline'
 Plugin 'junegunn/goyo.vim'
+Plugin 'mhartington/oceanic-next'
+Plugin 'bling/vim-airline'
 
 " Languages
 Plugin 'sheerun/vim-polyglot'
@@ -184,7 +185,6 @@ set showmode
 set hidden
 set wildmenu
 set wildmode=list:longest
-set visualbell
 set ttyfast
 set laststatus=2
 set undofile
@@ -194,6 +194,10 @@ set display+=lastline
 set autoread
 set tabpagemax=50
 set sessionoptions-=options
+
+" Prevent beeping/flashing
+set noerrorbells visualbell t_vb=
+autocmd GUIEnter * set visualbell t_vb=
 
 " Remove octal from C-a and C-x
 set nrformats-=octal
@@ -285,12 +289,9 @@ nnoremap <leader>sv :source $MYVIMRC<cr>
 " Automatically change working directory to current file place
 set autochdir
 
-" Colourscheme and other settings for gvim
-color slate
-:set guioptions-=m  "remove menubar
-:set guioptions-=T  "remove toolbar
-:set guioptions-=r  "remove right-hand scroll bar
-:set guioptions-=L  "remove left-hand scroll bar
+" Colorscheme
+colorscheme OceanicNext
+let g:airline_theme='oceanicnext'
 
 " Wordcount
 :map <F3> :w !wc -w<CR>
