@@ -31,6 +31,10 @@ Plugin 'gmarik/Vundle.vim'
 " Plugin 'user/L9', {'name': 'newL9'}
 
 " Autocompletion
+Plugin 'Shougo/deoplete.nvim'
+Plugin 'roxma/nvim-yarp'
+Plugin 'roxma/vim-hug-neovim-rpc'
+let g:deoplete#enable_at_startup = 1
 
 " Niceties
 Plugin 'tpope/vim-repeat'
@@ -38,6 +42,7 @@ Plugin 'tpope/vim-surround'
 Plugin 'junegunn/goyo.vim'
 Plugin 'mhartington/oceanic-next'
 Plugin 'bling/vim-airline'
+Plugin 'preservim/nerdtree'
 
 " Languages
 Plugin 'sheerun/vim-polyglot'
@@ -138,15 +143,9 @@ if has("autocmd")
 	" Set filetype local settings
 	augroup filetypes
 		"Indentation for various languages
-		autocmd FileType html setlocal shiftwidth=2 tabstop=2 expandtab
-		autocmd FileType ruby setlocal shiftwidth=2 tabstop=2 expandtab
-		autocmd FileType treetop setlocal shiftwidth=2 tabstop=2 expandtab
-		autocmd FileType jade setlocal shiftwidth=2 tabstop=2 expandtab
-		autocmd FileType scss setlocal shiftwidth=2 tabstop=2 expandtab
-		autocmd FileType coffee setlocal shiftwidth=2 tabstop=2 expandtab
 		autocmd FileType python setlocal tabstop=4 shiftwidth=4 expandtab
 		autocmd FileType haskell setlocal tabstop=4 shiftwidth=4 expandtab
-		autocmd FileType javascript setlocal tabstop=4 shiftwidth=4
+		autocmd FileType javascript setlocal tabstop=4 shiftwidth=4 expandtab
 		"Spellcheck for various writing formats
 		autocmd FileType tex setlocal spell spelllang=en_gb
 		autocmd FileType wiki setlocal spell spelllang=en_gb
@@ -370,3 +369,33 @@ function! ExecuteMacroOverVisualRange()
   echo "@".getcmdline()
   execute ":'<,'>normal @".nr2char(getchar())
 endfunction
+
+" Global indentation
+set tabstop=2 shiftwidth=2 expandtab
+
+" Tab completion
+function! s:check_back_space() abort "{{{
+  let col = col('.') - 1
+  return !col || getline('.')[col - 1]  =~ '\s'
+endfunction"}}}
+inoremap <silent><expr> <TAB>
+      \ pumvisible() ? "\<C-n>" :
+      \ <SID>check_back_space() ? "\<TAB>" :
+      \ deoplete#manual_complete()
+
+" Disable autocomplete in some filetypes
+
+autocmd FileType markdown
+       \ call deoplete#custom#buffer_option('auto_complete', v:false)
+autocmd FileType vimwiki
+       \ call deoplete#custom#buffer_option('auto_complete', v:false)
+
+" Put special files elsewhere
+
+set backupdir=.backup/,~/.backup//,/tmp//
+set directory=.swap/,~/.swap//,/tmp//
+set undodir=.undo/,~/.undo//,/tmp//
+
+" Hide ~ files
+
+set wildignore=*~
