@@ -357,6 +357,7 @@ let wiki.nested_syntaxes = {'python': 'python', 'c++': 'cpp', 'sh': 'sh', 'racke
 let g:vimwiki_list = [{'path': '~/vimwiki/', 'syntax': 'markdown', 'ext': '.wiki'}]
 let g:vimwiki_hl_headers = 1
 let g:vimwiki_hl_cb_checked = 1
+let g:vimwiki_ext2syntax = {'.wiki': 'markdown'}
 
 " Pollen
 inoremap <C-L> ◊
