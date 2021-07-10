@@ -30,11 +30,8 @@ Plugin 'gmarik/Vundle.vim'
 " Avoid a name conflict with L9
 " Plugin 'user/L9', {'name': 'newL9'}
 
-" Autocompletion
-Plugin 'Shougo/deoplete.nvim'
-Plugin 'roxma/nvim-yarp'
-Plugin 'roxma/vim-hug-neovim-rpc'
-let g:deoplete#enable_at_startup = 1
+" Intellisense
+Plugin 'neoclide/coc.nvim'
 
 " Niceties
 Plugin 'tpope/vim-repeat'
@@ -145,7 +142,9 @@ if has("autocmd")
 		"Indentation for various languages
 		autocmd FileType python setlocal tabstop=4 shiftwidth=4 expandtab
 		autocmd FileType haskell setlocal tabstop=4 shiftwidth=4 expandtab
-		autocmd FileType javascript setlocal tabstop=4 shiftwidth=4 expandtab
+		autocmd FileType javascript setlocal tabstop=2 shiftwidth=2 expandtab
+		autocmd FileType css setlocal tabstop=2 shiftwidth=2 expandtab
+		autocmd FileType html setlocal tabstop=2 shiftwidth=2 expandtab
 		"Spellcheck for various writing formats
 		autocmd FileType tex setlocal spell spelllang=en_gb
 		autocmd FileType wiki setlocal spell spelllang=en_gb
@@ -374,29 +373,29 @@ endfunction
 " Global indentation
 set tabstop=2 shiftwidth=2 expandtab
 
-" Tab completion
-function! s:check_back_space() abort "{{{
-  let col = col('.') - 1
-  return !col || getline('.')[col - 1]  =~ '\s'
-endfunction"}}}
-inoremap <silent><expr> <TAB>
-      \ pumvisible() ? "\<C-n>" :
-      \ <SID>check_back_space() ? "\<TAB>" :
-      \ deoplete#manual_complete()
-
-" Disable autocomplete in some filetypes
-
-autocmd FileType markdown
-       \ call deoplete#custom#buffer_option('auto_complete', v:false)
-autocmd FileType vimwiki
-       \ call deoplete#custom#buffer_option('auto_complete', v:false)
-
 " Put special files elsewhere
-
 set backupdir=.backup/,~/.backup//,/tmp//
 set directory=.swap/,~/.swap//,/tmp//
 set undodir=.undo/,~/.undo//,/tmp//
 
 " Hide ~ files
-
 set wildignore=*~
+
+" COC intellisense extensions
+let g:coc_global_extensions = ['coc-tsserver', 'coc-json', 'coc-git', 'coc-html', 'coc-pyright', 'coc-toml']
+
+" Disable completion for blacklisted file types
+function! s:disable_coc_for_type()
+  if index(g:coc_filetypes_disable, &filetype) == 1
+    :silent! CocDisable
+  else
+    :silent! CocEnable
+  endif
+endfunction
+
+augroup CocGroup
+ autocmd!
+ autocmd BufNew,BufEnter,BufAdd,BufCreate * call s:disable_coc_for_type()
+augroup end
+
+let g:coc_filetypes_disable = [ 'markdown', 'vimwiki' ]
