@@ -234,10 +234,6 @@ let mapleader = ","
 noremap \ ,
 " Select all
 nnoremap <leader>v V`]
-" Duplicate line
-nnoremap <leader>d yypjk
-" Duplicate character
-nnoremap <leader>c x2P
 
 " Searching
 nnoremap / /\v
@@ -282,6 +278,9 @@ vnoremap > >gv
 nnoremap <leader>ev :e $MYVIMRC<cr>
 nnoremap <leader>sv :source $MYVIMRC<cr>
 
+" NerdTree
+nnoremap <leader>n :NERDTree<cr>
+
 " Automatically change working directory to current file place
 set autochdir
 
@@ -295,10 +294,6 @@ let g:airline_theme='oceanicnext'
 " Indentation defines folds, also default to open folds
 set foldmethod=indent
 set foldlevelstart=20
-
-" Swap lines
-nnoremap <S-up> :m .-2<CR>==
-nnoremap <S-down> :m .+1<CR>==
 
 " Split line here
 nnoremap K i<CR><Esc>
@@ -315,10 +310,6 @@ nnoremap <F8> :setl noai nocin nosi inde=<CR>
 
 " Select last pasted text
 nnoremap gp `[v`]
-
-" GnuPG settings
-let g:GPGPreferArmor=1
-let g:GPGPreferSign=1
 
 " Turn line numbers off in goyo
 function! s:goyo_enter()
