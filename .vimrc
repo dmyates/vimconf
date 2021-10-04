@@ -47,6 +47,7 @@ Plugin 'tpope/vim-rails'
 Plugin 'wlangstroth/vim-racket'
 Plugin 'chaimleib/vim-renpy'
 Plugin 'nessss/vim-gml'
+Plugin 'dmyates/vim-gruescript'
 
 " Utilities
 Plugin 'vimwiki/vimwiki'
@@ -401,3 +402,7 @@ inoremap <silent><expr> <Tab>
       \ pumvisible() ? "\<C-n>" :
       \ <SID>check_back_space() ? "\<Tab>" :
       \ coc#refresh()
+
+" Reload syntax highlighting
+noremap <F12> <Esc>:syntax sync fromstart<CR>
+inoremap <F12> <C-o>:syntax sync fromstart<CR>
