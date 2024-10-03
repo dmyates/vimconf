@@ -1,4 +1,6 @@
 *~
 *.swp
 .vim/bundle/
+.vim/autoload/
+.vim/plugged/
 bundle/.netrwhist

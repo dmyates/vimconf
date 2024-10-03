@@ -2,72 +2,52 @@
 " Compiled by David Yates
 " with thanks to Brain Moolenar and Steve Losh
 
-" VUNDLE
-filetype off                  " required
+" Automatic vim-plug installation
+let data_dir = has('nvim') ? stdpath('data') . '/site' : '~/.vim'
+if empty(glob(data_dir . '/autoload/plug.vim'))
+  silent execute '!curl -fLo '.data_dir.'/autoload/plug.vim --create-dirs  https://raw.githubusercontent.com/junegunn/vim-plug/master/plug.vim'
+  autocmd VimEnter * PlugInstall --sync | source $MYVIMRC
+endif
 
-" set the runtime path to include Vundle and initialize
-set rtp+=~/.vim/bundle/Vundle.vim
-call vundle#begin()
-" alternatively, pass a path where Vundle should install plugins
-"call vundle#begin('~/some/path/here')
+call plug#begin()
 
-" let Vundle manage Vundle, required
-Plugin 'gmarik/Vundle.vim'
+" Core
+Plug 'tpope/vim-repeat'
+Plug 'tpope/vim-surround'
 
-" The following are examples of different formats supported.
-" Keep Plugin commands between vundle#begin/end.
-" plugin on GitHub repo
-" Plugin 'tpope/vim-fugitive'
-" plugin from http://vim-scripts.org/vim/scripts.html
-" Plugin 'L9'
-" Git plugin not hosted on GitHub
-" Plugin 'git://git.wincent.com/command-t.git'
-" git repos on your local machine (i.e. when working on your own plugin)
-" Plugin 'file:///home/gmarik/path/to/plugin'
-" The sparkup vim script is in a subdirectory of this repo called vim.
-" Pass the path to set the runtimepath properly.
-" Plugin 'rstacruz/sparkup', {'rtp': 'vim/'}
-" Avoid a name conflict with L9
-" Plugin 'user/L9', {'name': 'newL9'}
+" Display
+Plug 'mhartington/oceanic-next'
+Plug 'vim-airline/vim-airline'
+Plug 'machakann/vim-highlightedyank'
+Plug 'lambdalisue/vim-fern'
 
-" Intellisense
-Plugin 'neoclide/coc.nvim'
+" Programming languages
+Plug 'sheerun/vim-polyglot'
+Plug 'tpope/vim-rails'
+Plug 'wlangstroth/vim-racket'
+Plug 'chaimleib/vim-renpy'
+Plug 'nessss/vim-gml'
+Plug 'dmyates/vim-gruescript'
 
-" Niceties
-Plugin 'tpope/vim-repeat'
-Plugin 'tpope/vim-surround'
-Plugin 'junegunn/goyo.vim'
-Plugin 'mhartington/oceanic-next'
-Plugin 'bling/vim-airline'
-Plugin 'preservim/nerdtree'
+" Git
+Plug 'tpope/vim-fugitive'
+Plug 'junegunn/gv.vim'
+Plug 'airblade/vim-gitgutter'
+Plug 'tpope/vim-rhubarb'
 
-" Languages
-Plugin 'sheerun/vim-polyglot'
-Plugin 'tpope/vim-rails'
-Plugin 'wlangstroth/vim-racket'
-Plugin 'chaimleib/vim-renpy'
-Plugin 'nessss/vim-gml'
-Plugin 'dmyates/vim-gruescript'
+" Prose
+Plug 'junegunn/goyo.vim'
+Plug 'vimwiki/vimwiki'
 
-" Utilities
-Plugin 'vimwiki/vimwiki'
-Plugin 'jamessan/vim-gnupg'
+" Fuzzy find
+Plug 'junegunn/fzf', { 'do': { -> fzf#install() } }
+Plug 'junegunn/fzf.vim'
 
-" All of your Plugins must be added before the following line
-call vundle#end()            " required
-filetype plugin indent on    " required
-" To ignore plugin indent changes, instead use:
-"filetype plugin on
-"
-" Brief help
-" :PluginList          - list configured plugins
-" :PluginInstall(!)    - install (update) plugins
-" :PluginSearch(!) foo - search (or refresh cache first) for foo
-" :PluginClean(!)      - confirm (or auto-approve) removal of unused plugins
-"
-" see :h vundle for more details or wiki for FAQ
-" Put your non-Plugin stuff after this line
+" LSP
+Plug 'dense-analysis/ale'
+Plug 'liuchengxu/vista.vim'
 
+call plug#end()
 
 " When started as "evim", evim.vim will already have done these settings.
 if v:progname =~? "evim"
@@ -89,9 +69,6 @@ set history=1000	" keep 1000 lines of command line history
 set ruler		" show the cursor position all the time
 set showcmd		" display incomplete commands
 
-" For Win32 GUI: remove 't' flag from 'guioptions': no tearoff menu entries
-" let &guioptions = substitute(&guioptions, "t", "", "g")
-
 " Don't use Ex mode, use Q for formatting
 map Q gq
 
@@ -110,7 +87,7 @@ set hlsearch
 
 " Colors
 if (has("termguicolors"))
-   set termguicolors
+    set termguicolors
 endif
 
 " Autocommands
@@ -172,7 +149,7 @@ if !exists(":DiffOrig")
 		  \ | wincmd p | diffthis
 endif
 
-" Show relative line numbers
+" Show line numbers
 set number
 set numberwidth=3
 
@@ -280,7 +257,7 @@ nnoremap <leader>ev :e $MYVIMRC<cr>
 nnoremap <leader>sv :source $MYVIMRC<cr>
 
 " NerdTree
-nnoremap <leader>n :NERDTree<cr>
+nnoremap <leader>f :Fern . -drawer<cr>
 
 " Automatically change working directory to current file place
 set autochdir
@@ -373,36 +350,9 @@ set undodir=.undo/,~/.undo//,/tmp//
 " Hide ~ files
 set wildignore=*~
 
-" COC intellisense extensions
-let g:coc_global_extensions = ['coc-tsserver', 'coc-json', 'coc-git', 'coc-html', 'coc-pyright', 'coc-toml']
-
-" Disable completion for blacklisted file types
-function! s:disable_coc_for_type()
-  if index(g:coc_filetypes_disable, &filetype) == 1
-    :silent! CocDisable
-  else
-    :silent! CocEnable
-  endif
-endfunction
-
-augroup CocGroup
- autocmd!
- autocmd BufNew,BufEnter,BufAdd,BufCreate * call s:disable_coc_for_type()
-augroup end
-
-let g:coc_filetypes_disable = [ 'markdown', 'vimwiki' ]
-
-" use <tab> for trigger completion and navigate to the next complete item
-function! s:check_back_space() abort
-  let col = col('.') - 1
-  return !col || getline('.')[col - 1]  =~ '\s'
-endfunction
-
-inoremap <silent><expr> <Tab>
-      \ pumvisible() ? "\<C-n>" :
-      \ <SID>check_back_space() ? "\<Tab>" :
-      \ coc#refresh()
-
 " Reload syntax highlighting
 noremap <F12> <Esc>:syntax sync fromstart<CR>
 inoremap <F12> <C-o>:syntax sync fromstart<CR>
+
+" Autocomplete
+let g:ale_completion_enabled=1
