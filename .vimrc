@@ -18,8 +18,8 @@ Plug 'tpope/vim-surround'
 " Display
 Plug 'mhartington/oceanic-next'
 Plug 'vim-airline/vim-airline'
-Plug 'machakann/vim-highlightedyank'
 Plug 'lambdalisue/vim-fern'
+Plug 'luochen1990/rainbow'
 
 " Programming languages
 Plug 'sheerun/vim-polyglot'
@@ -28,6 +28,8 @@ Plug 'wlangstroth/vim-racket'
 Plug 'chaimleib/vim-renpy'
 Plug 'nessss/vim-gml'
 Plug 'dmyates/vim-gruescript'
+Plug 'simplosophy/vim-io'
+Plug 'imsnif/kdl.vim'
 
 " Git
 Plug 'tpope/vim-fugitive'
@@ -256,13 +258,15 @@ vnoremap > >gv
 nnoremap <leader>ev :e $MYVIMRC<cr>
 nnoremap <leader>sv :source $MYVIMRC<cr>
 
-" NerdTree
+" Filedrawer
 nnoremap <leader>f :Fern . -drawer<cr>
 
 " Automatically change working directory to current file place
 set autochdir
 
 " Colorscheme
+colorscheme OceanicNext
+" https://github.com/mhartington/oceanic-next/issues/122#issuecomment-1975474537
 colorscheme OceanicNext
 let g:airline_theme='oceanicnext'
 
@@ -340,7 +344,7 @@ function! ExecuteMacroOverVisualRange()
 endfunction
 
 " Global indentation
-set tabstop=2 shiftwidth=2 expandtab
+"set tabstop=2 shiftwidth=2 expandtab
 
 " Put special files elsewhere
 set backupdir=.backup/,~/.backup//,/tmp//
@@ -356,3 +360,11 @@ inoremap <F12> <C-o>:syntax sync fromstart<CR>
 
 " Autocomplete
 let g:ale_completion_enabled=1
+set omnifunc=ale#completion#OmniFunc
+
+" Rainbow brackets
+let g:rainbow_active = 1
+
+" Replace curly quotes
+nnoremap <leader>rq :%s/[‘’]/'/<CR>:%s/[“”]/"/<CR>
+
